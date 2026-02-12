@@ -1,20 +1,25 @@
-import logo from './logo.svg';
-import React, { useState } from "react";
+// App.js
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import LoanCalculator from "./LoanCalculator";
+import SavingsCalculator from "./SavingsCalculator";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>My Simple React Frontend</h1>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click Me
-      </button>
-    </div>
+    <Router>
+      <div style={{ padding: "20px" }}>
+        <nav>
+          <Link to="/loan" style={{ marginRight: "10px" }}>Loan Calculator</Link>
+          <Link to="/savings">Savings Calculator</Link>
+        </nav>
+
+        <Routes>
+          <Route path="/loan" element={<LoanCalculator />} />
+          <Route path="/savings" element={<SavingsCalculator />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
-
-
 
 export default App;
