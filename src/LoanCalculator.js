@@ -19,7 +19,7 @@ function LoanCalculator() {
       startDate: startDate
     };
     console.log("Loan payload:", payload);
-    fetch("http://localhost:8080/app/loans/calculate", { method: "POST", body: JSON.stringify(payload) })
+    fetch("/app/loans/calculate", { method: "POST", body: JSON.stringify(payload) })
   };
 
   return (
