@@ -5,7 +5,7 @@ function SavingsCalculator() {
   const [startingCapital, setStartingCapital] = useState(0);
   const [yearlyInterestRate, setYearlyInterestRate] = useState("");
   const [monthlyContribution, setMonthlyContribution] = useState(0);
-  const [durationYears, setDurationYears] = useState("");
+  const [durationYears, setDurationYears] = useState(0);
   const [taxRate, setTaxRate] = useState("");
   const [yearlyInflationRate, setYearlyInflationRate] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -18,7 +18,7 @@ function SavingsCalculator() {
       startingCapital: Math.round(parseFloat(startingCapital) * 100), // convert to cents
       yearlyInterestRate: yearlyInterestRate,
       monthlyContribution: Math.round(parseFloat(monthlyContribution) * 100),
-      durationYears: durationYears,
+      durationYears: Number(durationYears),
       taxRate: taxRate,
       yearlyInflationRate: yearlyInflationRate,
       startDate: startDate
@@ -26,7 +26,7 @@ function SavingsCalculator() {
     
     try {
       console.log(payload)
-      const res = await fetch("/app/savings/calculate", {
+      const res = await fetch("http://localhost:8080/app/savings/calculate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -91,10 +91,10 @@ function SavingsCalculator() {
       {response && (
       <div style={{ marginTop: "20px" }}>
         <h3>Savings Plan</h3>
-        <p>Your monthly interest rate is: {response.monthlyInterestRate}</p>
-        <p>At the end of the term, you will have earned ${response.totalEarnings} in interest.</p>
+        <p>Your monthly interest rate is: {response.monthlyInterestRate}.</p>
+        <p>At the end of the term, you will have earned ${response.totalEarnings/100} in interest.</p>
         <p>Which represents a {response.rateOfReturn}% return.</p>
-        <p>Adjusted to a {yearlyInterestRate} yearly inflation, your return is {response.inflationAdjustedROR}</p>
+        <p>Adjusted to a {yearlyInterestRate}% yearly inflation, your return is {response.inflationAdjustedROR}%.</p>
 
         <table border="1" cellPadding="5">
           <thead>
@@ -110,12 +110,12 @@ function SavingsCalculator() {
           <tbody>
             {response.plan.map((row, idx) => (
               <tr key={idx}>
-                <td>{row.date}</td>
-                <td>{row.interest}</td>
-                <td>{row.tax}</td>
-                <td>{row.contribution}</td>
-                <td>{row.increase}</td>
-                <td>{row.capital}</td>
+                <td>{new Date(row.date).toDateString()}</td>
+                <td>${row.interest/100}</td>
+                <td>${row.tax/100}</td>
+                <td>${row.contribution/100}</td>
+                <td>${row.increase/100}</td>
+                <td>${row.capital/100}</td>
               </tr>
             ))}
           </tbody>
