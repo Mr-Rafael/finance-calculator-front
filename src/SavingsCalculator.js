@@ -110,7 +110,7 @@ function SavingsCalculator() {
           <tbody>
             {response.plan.map((row, idx) => (
               <tr key={idx}>
-                <td>{new Date(row.date).toDateString()}</td>
+                <td>{new Date(row.date).toLocaleDateString()}</td>
                 <td>${row.interest/100}</td>
                 <td>${row.tax/100}</td>
                 <td>${row.contribution/100}</td>
